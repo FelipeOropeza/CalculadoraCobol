@@ -13,7 +13,7 @@ Operações disponíveis:
 
 1. **Clone o repositório**:
    ```bash
-   git clone https://github.com/FelipeOropeza/Api-postagens.git
+   git clone https://github.com/FelipeOropeza/CalculadoraCobol.git
    cd CalculadoraCobol
 
 2. **Abra o arquivo COBOL e complie**:
