@@ -1,44 +1,66 @@
-       identification division.
-       program-id. Calculadora.
-       data division.
-           working-storage section.
-                01 num1 pic 9(3).
-                01 num2 pic 9(3).
-                01 resultado pic 9(3).
-                01 operacao pic x.
-       procedure division.
-           display "Digite o primeiro numero: ".
-              accept num1.
-           display "Digite o segundo numero: ".
-              accept num2.
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. Calculadora.
 
-           display "Digite a operacao (+, -, *, /): ".
-              accept operacao.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 num1       PIC 9(2).
+       01 num2       PIC 9(2).
+       01 resultado  PIC 9(3). 
+       01 operacao   PIC X.
+       01 controle-Loop PIC X(05) VALUE 'TRUE'.
+
+       PROCEDURE DIVISION.
+
+           PERFORM UNTIL controle-Loop = 'FALSE'
+               DISPLAY "Digite o primeiro numero: "
+               ACCEPT num1
+               DISPLAY "Digite o segundo numero: "
+               ACCEPT num2
+
+               DISPLAY "Digite a operacao (+, -, *, /) ou S para sair: "
+               ACCEPT operacao
                
-           evaluate operacao
-                when "+" perform soma
-                when "-" perform subtracao
-                when "*" perform multiplicacao
-                when "/" perform divisao
-                when other display "Operacao invalida"
-           end-evaluate.
+               EVALUATE operacao
+                   WHEN "+" 
+                       PERFORM soma
+                   WHEN "-" 
+                       PERFORM subtracao
+                   WHEN "*" 
+                       PERFORM multiplicacao
+                   WHEN "/" 
+                       PERFORM divisao
+                   WHEN "S" 
+                       MOVE 'FALSE' TO controle-Loop
+                   WHEN OTHER 
+                       DISPLAY "Operacao invalida"
+               END-EVALUATE
 
-              display "O resultado e: " resultado.
+               IF controle-Loop = 'TRUE'
+                   DISPLAY "O resultado e: " resultado
+               END-IF
+           END-PERFORM.
 
-           display 'Pressione ENTER para sair.'
-               accept  num1.
-       stop run.
+           DISPLAY 'Pressione ENTER para sair.'
+           ACCEPT num1
+           STOP RUN.
 
        soma.
-           compute resultado = num1 + num2.
+           COMPUTE resultado = num1 + num2
+           EXIT.
 
        subtracao.
-           compute resultado = num1 - num2.
+           COMPUTE resultado = num1 - num2
+           EXIT.
 
        multiplicacao.
-           compute resultado = num1 * num2.
+           COMPUTE resultado = num1 * num2
+           EXIT.
 
        divisao.
-           compute resultado = num1 / num2.
-
-
+           IF num2 = 0
+               DISPLAY "Erro: Divisao por zero nao permitida"
+               MOVE 'FALSE' TO controle-Loop
+           ELSE
+               COMPUTE resultado = num1 / num2
+           END-IF.
+           EXIT.
